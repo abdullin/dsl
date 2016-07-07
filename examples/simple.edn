@@ -1,0 +1,60 @@
+{
+ ;; similar to using in ddd file
+ :using [
+                                        
+         Abstractions
+         System
+         System.Collections.Generic
+         System.Runtime.Serialization
+         ]
+ ;; similar to namespace in ddd file
+ :namespace SkuVault.Sample
+ ;; name of the file to generate
+ :file Examples.cs
+ ;; similar to extern in ddd file
+ :extern SkuVault.Sample-ns
+ ;; similar to const in ddd file. Shortcuts for common fields
+ :const {                      
+         :time [DateTime DateUtc]
+         }
+ :aggs [
+        {
+         ;; aggregate without name is "func" aggregate
+         ;; all commands will inherit from this interface
+         :cmd IFuncCommand
+         ;; all events will inherit from this interface
+         :evt IFuncEvent           
+         :messages [
+                    ;; format of messages is [:kind Name [fields] toString]
+                    [:evt EventStreamStarted [:time] "Started on {time}"] 
+                    [:cmd FindAssembly[]]
+                    ]
+         }
+        {
+         ;; aggregate name
+         :name Sales               
+         :cmd ICommand<SaleId>
+         :evt IEvent<SaleId>
+         ;; shortcuts specific to this aggregate
+         :const {                  
+                 :refInfo [RefInfo refInfo]
+                 :tenantId [TenantId tenantId]
+                 }
+         ;; all messages in this aggregate will start with these fields
+         :common [:refInfo]       
+         :messages [
+                    [:cmd CommandUsingReferences [:tenantId :time]]
+                    ;; this is an example of command that has arrays and nullables                    
+                    [:cmd CommandWithArrayAndNullable [[int? maybeInt] [string[] array] ]]
+                    ;; this event has a few fields skipped in the order
+                    [:evt EventWithSkippedOrders [:tenantId nil nil [string Title]]]
+                    ]
+         }
+        ]
+ }
+
+
+
+
+
+
