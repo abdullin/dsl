@@ -10,7 +10,7 @@
  ;; similar to namespace in ddd file
  :namespace SkuVault.Sample
  ;; name of the file to generate
- :file Examples.cs
+ :file Simple.cs
  ;; similar to extern in ddd file
  :extern SkuVault.Sample-ns
  ;; similar to const in ddd file. Shortcuts for common fields
