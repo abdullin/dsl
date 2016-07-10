@@ -15,7 +15,7 @@
  :extern SkuVault.Sample-ns
  ;; similar to const in ddd file. Shortcuts for common fields
  :const {                      
-         :time [DateTime DateUtc]
+         :time (DateTime DateUtc)
          }
  :aggs [
         {
@@ -26,8 +26,8 @@
          :evt IFuncEvent           
          :messages [
                     ;; format of messages is [:kind Name [fields] toString]
-                    [:evt EventStreamStarted [:time] "Started on {time}"] 
-                    [:cmd FindAssembly[]]
+                    (evt EventStreamStarted [:time] "Started on {time}")
+                    (cmd FindAssembly[])
                     ]
          }
         {
@@ -37,17 +37,17 @@
          :evt IEvent<SaleId>
          ;; shortcuts specific to this aggregate
          :const {                  
-                 :refInfo [RefInfo refInfo]
-                 :tenantId [TenantId tenantId]
+                 :refInfo (RefInfo refInfo)
+                 :tenantId (TenantId tenantId) 
                  }
          ;; all messages in this aggregate will start with these fields
          :common [:refInfo]       
          :messages [
-                    [:cmd CommandUsingReferences [:tenantId :time]]
+                    (cmd CommandUsingReferences [:tenantId :time])
                     ;; this is an example of command that has arrays and nullables                    
-                    [:cmd CommandWithArrayAndNullable [[int? maybeInt] [string[] array] ]]
+                    (cmd CommandWithArrayAndNullable [(int? maybeInt) (string[] array) ])
                     ;; this event has a few fields skipped in the order
-                    [:evt EventWithSkippedOrders [:tenantId nil nil [string Title]]]
+                    (evt EventWithSkippedOrders [:tenantId nil nil (string Title)])
                     ]
          }
         ]

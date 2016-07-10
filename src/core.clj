@@ -35,23 +35,19 @@
    [s [] 0] fields))
 
 
+(defn field-
+  ([type] (field- type type))
+  ([type name] {:name (camel (str name)) :type (str type) :prop (pascal (str name))})
+  ([type arr name] (assoc (field- (str type "[]") name) :array-of (str type))))
 
 (defn unwrap-field-
   "field can be :const [type] [type name] [type [] name]"
-
   [index fld const]
   (let [
-        tuple (if (vector? fld) fld (const fld))
-        id (if-not (vector? fld) fld)
-        order (inc index)
-        [a1 a2 a3] tuple
-        name (or name type)
+        tuple (get const fld fld)
+        id (if-not (seq? fld) fld)
         ]
-    (case (count tuple)
-      1 {:id id :type (str a1) :name (str a1) :order order :prop (pascal (str a1))}
-      2 {:id id :type (str a1) :name (str a2) :order order :prop (pascal (str a2))}
-      3 {:id id :type (str a1 "[]") :name (str a3) :order order :array-of (str a1) :prop (pascal (str a3))}
-      )))
+    (assoc (apply field- tuple) :id id :order (inc index))))
 
 (defn unwrap-message- [msg agg const]
   (let [
@@ -128,12 +124,12 @@
       (let [{:keys [name messages]} g]
         (when (some? name)
           (ln "\t\n\tpublic interface I%sApplicationService\n\t{\n" name)
-          (doseq [m (filter #(= :cmd (:kind %)) messages)]
+          (doseq [m (filter #(= 'cmd (:kind %)) messages)]
             (ln "\t\tvoid When(%s c);\n" (:name m)))
           (ln "\t}\n")
           
           (ln "\t\n\tpublic interface I%sState\n\t{\n" name)
-          (doseq [m (filter #(= :evt (:kind %)) messages)]
+          (doseq [m (filter #(= 'evt (:kind %)) messages)]
             (ln "\t\tvoid When(%s e);\n" (:name m)))
           (ln "\t}\n"))))
     (ln "\t#endregion\n}\n")
