@@ -55,7 +55,7 @@
 (defn unwrap-message- [msg agg const]
   (let [
         [kind id fs txt] msg
-        fs (if (= kind :rec) fs  (concat (:common agg) fs))
+        fs (if (= kind 'rec) fs  (concat (:common agg) fs))
         ]
     {
      :name id
