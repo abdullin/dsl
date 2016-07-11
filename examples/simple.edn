@@ -45,7 +45,7 @@
          :messages [
                     (cmd CommandUsingReferences [:tenantId :time])
                     ;; this is an example of command that has arrays and nullables                    
-                    (cmd CommandWithArrayAndNullable [(int? maybeInt) (string[] array) ])
+                    (cmd CommandWithArrayAndNullable [(int? maybeInt) ([string] array) ])
                     ;; this event has a few fields skipped in the order
                     (evt EventWithSkippedOrders [:tenantId nil nil (string Title)])
                     ]

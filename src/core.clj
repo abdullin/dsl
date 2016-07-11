@@ -37,8 +37,11 @@
 
 (defn field-
   ([type] (field- type type))
-  ([type name] {:name (camel (str name)) :type (str type) :prop (pascal (str name))})
-  ([type arr name] (assoc (field- (str type "[]") name) :array-of (str type))))
+  ([type name]
+   (if (vector? type)
+     (let [type (first type)]
+       (assoc (field- (str type "[]") name) :array-of (str type)))
+     {:name (camel (str name)) :type (str type) :prop (pascal (str name))})))
 
 (defn unwrap-field-
   "field can be :const [type] [type name] [type [] name]"
@@ -59,7 +62,7 @@
      :fields (filter some? (map-indexed #(if %2 (unwrap-field- %1 %2 const)) fs)) 
      :string txt
      :kind kind
-     :base (kind agg)
+     :base ((keyword kind) agg)
      }
     ))
 
