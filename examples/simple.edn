@@ -1,7 +1,6 @@
 {
  ;; similar to using in ddd file
  :using [
-                                        
          Abstractions
          System
          System.Collections.Generic
@@ -37,8 +36,8 @@
          :evt IEvent<SaleId>
          ;; shortcuts specific to this aggregate
          :const {                  
-                 :refInfo (RefInfo refInfo)
-                 :tenantId (TenantId tenantId) 
+                 :refInfo (RefInfo refInfo NotNull)
+                 :tenantId (TenantId tenantId NotNull) 
                  }
          ;; all messages in this aggregate will start with these fields
          :common [:refInfo]       

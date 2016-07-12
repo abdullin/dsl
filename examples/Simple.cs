@@ -38,6 +38,8 @@ namespace SkuVault.Sample
         CommandUsingReferences () {}
         public CommandUsingReferences (RefInfo refInfo, TenantId tenantId, DateTime dateUtc)
         {
+            if ( refInfo == null ) throw new ArgumentNullException( "refInfo" );
+            if ( tenantId == null ) throw new ArgumentNullException( "tenantId" );
             RefInfo = refInfo;
             TenantId = tenantId;
             DateUtc = dateUtc;
@@ -56,6 +58,7 @@ namespace SkuVault.Sample
         }
         public CommandWithArrayAndNullable (RefInfo refInfo, int? maybeInt, string[] array)
         {
+            if ( refInfo == null ) throw new ArgumentNullException( "refInfo" );
             RefInfo = refInfo;
             MaybeInt = maybeInt;
             Array = array;
@@ -71,6 +74,8 @@ namespace SkuVault.Sample
         EventWithSkippedOrders () {}
         public EventWithSkippedOrders (RefInfo refInfo, TenantId tenantId, string title)
         {
+            if ( refInfo == null ) throw new ArgumentNullException( "refInfo" );
+            if ( tenantId == null ) throw new ArgumentNullException( "tenantId" );
             RefInfo = refInfo;
             TenantId = tenantId;
             Title = title;
