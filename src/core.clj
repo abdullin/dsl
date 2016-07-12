@@ -37,11 +37,11 @@
 
 (defn field-
   ([type] (field- type type))
-  ([type name]
-   (if (vector? type)
+  ([type name] (field- type name nil))
+  ([type name schema] (if (vector? type)
      (let [type (first type)]
        (assoc (field- (str type "[]") name) :array-of (str type)))
-     {:name (camel (str name)) :type (str type) :prop (pascal (str name))})))
+     {:name (camel (str name)) :type (str type) :prop (pascal (str name)) :schema schema})))
 
 (defn unwrap-field-
   "field can be :const [type] [type name] [type [] name]"
@@ -78,6 +78,12 @@
   (let [{:keys [const aggs]} cfg]
     (assoc cfg :aggs (map #(unwrap-agg- const %) aggs))))
 
+(defn ctor-assert- [field ln]
+  (let [{:keys [schema name]} field]
+    (case schema
+      'NotNull (ln "\t\t\tif ( %s == null ) throw new ArgumentNullException( \"%s\" );\n" name name)
+      nil)))
+
 (defn print-dsl [cfg ln]
   (let [{:keys [file namespace prefix using const aggs extern]} cfg]
     (doseq [u using]
@@ -94,7 +100,7 @@
           (doseq [{:keys [order prop type]} fields]
             (ln "\t\t[DataMember(Order = %d)] public %s %s { get; private set; }\n" order type prop))
           
-                                        ; ctors only if we have fields
+          ;; ctors only if we have fields
           (when (seq fields)
             (ln "\t\t") ; "old code demands
             (ln "\n\t\t%s ()" name)
@@ -110,6 +116,10 @@
                 )
               )
             (ln "\t\tpublic %s (%s)\n\t\t{\n" name (str/join  ", " (map #(str (:type %1) " " (camel (:name %1))) fields)))
+            ;; any schemas
+            (doseq [field fields]
+              (ctor-assert- field ln))
+            ;; assignments
             (doseq [{:keys [name prop]} fields]
               (ln "\t\t\t%s = %s;\n" prop (camel name)))
             (ln "\t\t}\n")
