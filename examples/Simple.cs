@@ -2,7 +2,6 @@ using Abstractions;
 using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
-
 // ReSharper disable PartialTypeWithSinglePart
 // ReSharper disable UnusedMember.Local
 namespace SkuVault.Sample
@@ -14,6 +13,7 @@ namespace SkuVault.Sample
         [DataMember(Order = 1)] public DateTime DateUtc { get; private set; }
         
         EventStreamStarted () {}
+        
         public EventStreamStarted (DateTime dateUtc)
         {
             DateUtc = dateUtc;
@@ -36,6 +36,7 @@ namespace SkuVault.Sample
         [DataMember(Order = 3)] public DateTime DateUtc { get; private set; }
         
         CommandUsingReferences () {}
+        
         public CommandUsingReferences (RefInfo refInfo, TenantId tenantId, DateTime dateUtc)
         {
             if ( refInfo == null ) throw new ArgumentNullException( "refInfo" );
@@ -52,10 +53,11 @@ namespace SkuVault.Sample
         [DataMember(Order = 2)] public int? MaybeInt { get; private set; }
         [DataMember(Order = 3)] public string[] Array { get; private set; }
         
-        CommandWithArrayAndNullable () 
-{
+        CommandWithArrayAndNullable ()
+        {
             Array = new string[0];
         }
+        
         public CommandWithArrayAndNullable (RefInfo refInfo, int? maybeInt, string[] array)
         {
             if ( refInfo == null ) throw new ArgumentNullException( "refInfo" );
@@ -72,6 +74,7 @@ namespace SkuVault.Sample
         [DataMember(Order = 5)] public string Title { get; private set; }
         
         EventWithSkippedOrders () {}
+        
         public EventWithSkippedOrders (RefInfo refInfo, TenantId tenantId, string title)
         {
             if ( refInfo == null ) throw new ArgumentNullException( "refInfo" );
@@ -87,6 +90,7 @@ namespace SkuVault.Sample
         void When(CommandUsingReferences c);
         void When(CommandWithArrayAndNullable c);
     }
+    
     
     public interface ISalesState
     {
