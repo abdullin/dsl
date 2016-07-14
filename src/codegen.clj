@@ -22,14 +22,12 @@
     [" {}" :nl]))
 
 (defn gen-property
-  "Generated a public property"
   [m]
   (let [{:keys [order prop type]} m]
     ["[DataMember(Order = " order ")] public " type " " prop " { get; private set; }" :nl]))
 
 (defn gen-assignment [m] [(:prop m) " = " (:name m) ";" :nl])
 (defn gen-assert
-  "Generates a schema assertion"
   [f]
   (let [{:keys [schema name]} f]
     (case schema

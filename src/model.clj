@@ -36,7 +36,7 @@
      {:name (camel (str name)) :type (str type) :prop (pascal (str name)) :schema schema})))
 
 (defn unwrap-field
-  "field can be :const [type] [type name] [type [] name]"
+  "field can be :const [type] [type name] [type name schema]"
   [index fld const]
   (let [
         tuple (get const fld fld)
@@ -67,7 +67,7 @@
         const (merge file-const const)
         ]
     (println (str "Processing aggregate" (:name agg)))
-    (assoc agg :messages (map #(unwrap-message- % agg const file-extern) messages) )))
+    (assoc agg :messages (map #(unwrap-message- % agg const file-extern) messages))))
 
 (defn dsl->model [cfg]
   (let [{:keys [const aggs extern]} cfg]
