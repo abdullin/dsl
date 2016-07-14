@@ -25,9 +25,7 @@ namespace SkuVault.Sample
         }
     }
     [DataContract(Namespace = "SkuVault.Sample-ns")]
-    public partial class FindAssembly : IFuncCommand
-    {
-    }
+    public partial class FindAssembly : IFuncCommand {}
     [DataContract(Namespace = "SkuVault.Sample-ns")]
     public partial class CommandUsingReferences : ICommand<SaleId>
     {
@@ -90,7 +88,6 @@ namespace SkuVault.Sample
         void When(CommandUsingReferences c);
         void When(CommandWithArrayAndNullable c);
     }
-    
     
     public interface ISalesState
     {
