@@ -2,13 +2,15 @@
   (:require [clojure.string :as str]))
 
 (defn indent [& seq]
-  (reduce
-   (fn [agg next]
-     (if (or (empty? agg) (= :nl (last agg)))
-       (conj agg :indent next)
-       (conj agg next)))
-   []
-   (filter some? (flatten seq))))
+  (->> seq
+       flatten
+       (filter some?)
+       (reduce
+        (fn [agg next]
+          (if (or (empty? agg) (= :nl (last agg)))
+            (conj agg :indent next)
+            (conj agg next)))
+        [])))
 
 (defn gen-property
   [m]
