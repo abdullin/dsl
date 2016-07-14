@@ -1,7 +1,9 @@
 (ns codegen
   (:require [clojure.string :as str]))
 
-(defn indent [& seq]
+(defn indent
+  "Indents a code block by inserting :indent before lines"
+  [& seq]
   (->> seq
        flatten
        (filter some?)
@@ -12,18 +14,22 @@
             (conj agg next)))
         [])))
 
-(defn brackets [s]
+(defn brackets
+  "Wraps sequence in bracket"
+  [s]
   (if (seq s)
     [:nl "{" :nl s "}" :nl]
     [" {}" :nl]))
 
 (defn gen-property
+  "Generated a public property"
   [m]
   (let [{:keys [order prop type]} m]
     ["[DataMember(Order = " order ")] public " type " " prop " { get; private set; }" :nl]))
 
 (defn gen-assignment [m] [(:prop m) " = " (:name m) ";" :nl])
 (defn gen-assert
+  "Generates a schema assertion"
   [f]
   (let [{:keys [schema name]} f]
     (case schema
