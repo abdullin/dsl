@@ -5,4 +5,9 @@
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure "1.8.0"]]
   :main core
+  :uberjar-name ~(str "foobar-%s-"
+                      (->
+                       (clojure.java.shell/sh "git" "rev-parse" "--short" "HEAD")
+                       :out .trim)
+                      ".uber.jar")
   )
