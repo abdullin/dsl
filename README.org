@@ -1,13 +1,8 @@
-# CQRS DSL Tool
+* CQRS DSL Tool
 
 This is a simple Clojure utility which takes aggregate specifications
 as input and generates C# files for command and event classes
-(serializable with protobuf). 
-
-
-For example, given a file [[/examples/trivial.edn][trivial.edn]], it will generate
-[[/examples/trivial.cs][trivial.cs]]. For an annotated example see [[/examples/simple.edn][simple.edn]].
-
+(serializable with protobuf).
 
 It is a small step-up from [[https://github.com/Lokad/lokad-codedsl][Lokad Code DSL]] which did the same thing but
 was based on ANTLR for parsing of the original ~ddd~ files to
@@ -16,7 +11,12 @@ AST. We simply prettify this AST a little (e.g. via resolving field
 shortcuts) to transform it into [[https://en.wikipedia.org/wiki/Semantic_data_model][Semantic DSL Model]] and then generate
 C# code from it.
 
-## Building and running
+** Examples
+
+For example, given a file [[/examples/trivial.edn][trivial.edn]], it will generate
+[[/examples/trivial.cs][trivial.cs]]. For an annotated example see [[/examples/simple.edn][simple.edn]].
+
+** Building and running
 
 You will need [[http://leiningen.org][lein]] build tool. 
 
