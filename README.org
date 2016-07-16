@@ -14,7 +14,47 @@ C# code from it.
 ** Examples
 
 For example, given a file [[/examples/trivial.edn][trivial.edn]], it will generate
-[[/examples/trivial.cs][trivial.cs]]. For an annotated example see [[/examples/simple.edn][simple.edn]].
+[[/examples/trivial.cs][trivial.cs]]. 
+
+Here is the snippet. This portion below:
+
+#+BEGIN_SRC lisp
+  (cmd UpdateUserRoles (:user :roles))
+#+END_SRC
+
+will translate to this snippet (extra fields are shared between
+multiple messages and are declared at a higher level):
+
+#+BEGIN_SRC csharp
+  [DataContract(Namespace = "trivial.msg")]
+  public partial class UserRolesUpdated : IAccountEvent
+  {
+      [DataMember(Order = 1)] public TenantId TenantId { get; private set; }
+      [DataMember(Order = 2)] public UserId UserId { get; private set; }
+      [DataMember(Order = 3)] public string UserName { get; private set; }
+      [DataMember(Order = 4)] public string[] Roles { get; private set; }
+      [DataMember(Order = 5)] public DateTime DateUtc { get; private set; }
+    
+      UserRolesUpdated ()
+      {
+          Roles = new string[0];
+      }
+    
+      public UserRolesUpdated (TenantId tenantId, UserId userId, string userName, string[] roles, DateTime dateUtc)
+      {
+          if ( tenantId == null ) throw new ArgumentNullException( "tenantId" );
+          if ( userId == null ) throw new ArgumentNullException( "userId" );
+          if ( userName == null ) throw new ArgumentNullException( "userName" );
+          TenantId = tenantId;
+          UserId = userId;
+          UserName = userName;
+          Roles = roles;
+          DateUtc = dateUtc;
+      }
+  }
+#+END_SRC
+
+For an annotated example see [[/examples/simple.edn][simple.edn]].
 
 ** Building and running
 
