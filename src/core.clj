@@ -30,7 +30,7 @@
         dir (or dir ".")
         ]
     (doseq [file (walk dir #".*\.edn")]
-      (print (str "Reading " file  "... "))
+      (println (str "Reading " file  "... "))
       (let [
             model (-> file
                       .getPath
@@ -41,7 +41,7 @@
                       code->str)
             out (io/file (.getParent file) (str (:file model)))
             ]
-        (print (str "saving to " out))
+        (println (str "  Saving to " out))
         (with-open [w (io/writer (str out))]
           (doseq [l lines] (.write w l)))
-        (println "Done")))))
+        (println "  Done")))))

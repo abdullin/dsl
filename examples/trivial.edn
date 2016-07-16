@@ -1,0 +1,34 @@
+{
+ :namespace Trivial
+ :file trivial.cs
+ :extern trivial.msg
+ :const {                      
+         :time (DateTime DateUtc)
+         :tenant (TenantId TenantId NotNull)
+         :username (string UserName NotNull)
+         :roles ([string] Roles NotNull)
+         :user (UserId UserId NotNull)
+         }
+ :aggs
+ [
+  {
+   :name Account
+   :cmd IAccountCommand
+   :evt IAccountEvent
+   :common [:tenant]
+   :messages
+   [
+    
+    (cmd AddUser (:username :roles))
+    (evt UserAdded (:user :username :roles :time))
+
+    (cmd UpdateUserRoles (:user :roles))
+    (evt UserRolesUpdated (:user :username :roles :time))
+
+    (cmd DeleteUser (:user))
+    (evt UserDeleted (:user :username :roles :time))
+    ]
+   }
+
+  ]
+ }

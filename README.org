@@ -1,0 +1,33 @@
+# CQRS DSL Tool
+
+This is a simple Clojure utility which takes aggregate specifications
+as input and generates C# files for command and event classes
+(serializable with protobuf). 
+
+
+For example, given a file [[/examples/trivial.edn][trivial.edn]], it will generate
+[[/examples/trivial.cs][trivial.cs]]. For an annotated example see [[/examples/simple.edn][simple.edn]].
+
+
+It is a small step-up from [[https://github.com/Lokad/lokad-codedsl][Lokad Code DSL]] which did the same thing but
+was based on ANTLR for parsing of the original ~ddd~ files to
+AST. This tool uses [[https://github.com/edn-format/edn][edn data notation]] which can be directly used as
+AST. We simply prettify this AST a little (e.g. via resolving field
+shortcuts) to transform it into [[https://en.wikipedia.org/wiki/Semantic_data_model][Semantic DSL Model]] and then generate
+C# code from it.
+
+## Building and running
+
+You will need [[http://leiningen.org][lein]] build tool. 
+
+To run examples simply execute  =lein run examples=. It will regenerate all cs files.
+
+To create a single jar file: =lein uberjar=. This will create an
+/uberjar/ file in the =targets= folder, including version number and
+git commit. This could then be executed via:
+
+#+BEGIN_SRC bash
+$ java -jar target/dsl-0.1.0-a8a191a.uber.jar examples
+#+END_SRC
+
+Or you could copy it to any machine with Java and run there.

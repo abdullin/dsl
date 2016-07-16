@@ -66,7 +66,7 @@
         {:keys [event command const messages]} agg
         const (merge file-const const)
         ]
-    (println (str "Processing aggregate" (:name agg)))
+    (println (str "    - aggregate " (or (:name agg) "default")))
     (assoc agg :messages (map #(unwrap-message- % agg const file-extern) messages))))
 
 (defn dsl->model [cfg]
