@@ -20,14 +20,23 @@ For example, given a file [[/examples/trivial.edn][trivial.edn]], it will genera
 
 You will need [[http://leiningen.org][lein]] build tool. 
 
-To run examples simply execute  =lein run examples=. It will regenerate all cs files.
+To run examples, regenerating all cs files:
 
-To create a single jar file: =lein uberjar=. This will create an
-/uberjar/ file in the =targets= folder, including version number and
-git commit. This could then be executed via:
+#+BEGIN_SRC shell
+  $ lein run examples
+#+END_SRC
 
-#+BEGIN_SRC bash
-$ java -jar target/dsl-0.1.0-a8a191a.uber.jar examples
+To create a single jar file: 
+
+#+BEGIN_SRC shell
+  $ lein uberjar
+#+END_SRC
+
+This will create an =dsl-version-commit.uber.jar= file in the
+=targets= folder. This file could then be executed via:
+
+#+BEGIN_SRC shell
+  $ java -jar target/dsl-0.1.0-a8a191a.uber.jar examples
 #+END_SRC
 
 Or you could copy it to any machine with Java and run there.
